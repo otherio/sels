@@ -1,0 +1,39 @@
+# Created by: SELS Team  
+# 
+# Description: Configuration file for List Server 
+# 
+# License: This code is a part of SELS distribution under NCSA/UIUC Open Source License (refer NCSA-license.txt)
+#          Some portions of the code are distributed under GPL License. (refer gpglib/COPYING)
+############################################################################################################################
+
+
+Description : This software is for a List Moderator creating and using a Secure Email List Service(SELS).
+	      Please go to www.sels.ncsa.uiuc.edu for further information.                      
+
+The directory structure is a as follows:
+
+LM
+==
+
+bin : Python scripts for List Moderator. You will use these scripts for creating key pairs for yourself, your list and any subscribers joining your list. 
+
+LS
+==
+
+bin : Python scripts for List server. These scripts are executed for creating list keyrings, list server key pairs, communicating with LM, etc  automatically. 
+
+
+common
+======
+
+lib/1.4 : Bouncy Castle jar & zip files  (bc*), sels.jar contains java files for key generation. mypgp.jar are a few modified Bouncy Castle files used for SELS.
+These files are used is you use Java version 1.4.x-x
+ 
+lib/1.5 : Same as above except these files are used if you have Java version 1.5.x-x 
+
+junit.jar :
+
+src : Contains Java source code mentioned above under lib/1.x for Key Generation.
+
+Please read INSTALL to see how to install SELS.
+

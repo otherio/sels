@@ -1,0 +1,76 @@
+# Created by: SELS Team  
+# 
+# Description: Configuration file for List Server 
+# 
+# License: This code is a part of SELS distribution under NCSA/UIUC Open Source License (refer NCSA-license.txt)
+#          Some portions of the code are distributed under GPL License. (refer gpglib/COPYING)
+############################################################################################################################
+== LM or List Moderator ==
+Copy the sels-x.x folder to an appropriate location.
+Make sure you meet all the prerequisites (http://sels.ncsa.uiuc.edu/install.html#List2)
+1. Start using the code. Look at  (http://sels.ncsa.uiuc.edu/usage.html)
+2. You can edit SELSLMConfig.py to change the default values for the following variables:
+   keyexp: An integer value for key expiration time in years. Default = 3, (Note: Maximum value at List server is set to 5 years)
+   keysize: An integer value for key length. Can be either 1024 or 2048. Default = 1024
+   SubPass: A password string used during user subscription (both batch and individual). 
+            If you choose to leave it blank then you will be prompted for the value during script execution 
+            when subscribing a single user. For batch subscription random password will be generated for each 
+            user and stored in a file at sels-X.X/LM/lists/<listname>/SELS-<listname>.txt  
+            Distribute this password to the user by some secure means.
+   
+   Enter the following values too *OR* add them during script execution.
+   SMTPServer : The SMTP server used by your List Server, e.g. mail.isp.com
+   SMTPPort : 25,  (Currently SELS only supports unauthenticated SMTP)
+   LS_EMAIL : Email address of your list server administrator.  
+  
+
+== LS or List Server ==
+Copy the sels-x.x folder to an appropriate location 
+Make sure you meet all the prerequisites (http://sels.ncsa.uiuc.edu/install.html#List1)
+Steps to install LS are:
+
+Note: If you are doing a reinstall of SELS LS code, remember to make a backup of your SELSLSConfig.py 
+
+1. You need to run configure with three arguments: selspath , mailman-path and mailman-logpath 
+   selspath is defined by where ever you want to install SELS. Usually SELS is installed in /usr/local. 
+   Therefore selspath = /usr/local/selsx.x/LS
+   mailman-path is the location where mailman "lists" folder is installed. Mailman is usually installed in /usr/local. 
+   To find where mailman is installed run "locate mailmanctl"  
+   This will return a path like "/usr/local/mailman/bin"   If /usr/local/mailman/lists exists then
+   mailman-path=/usr/local/mailman. Sometimes(example in Fedora core linux, default mailman installation) mailman "lists"
+   folder is installed in a different location than mailman core code. Usually mailman core is installed in /usr/lib/mailman
+   whereas "lists" folder is installed at /var/lib/mailman. In this case mailman-path=/var/lib/mailman
+   Mailman stores logs in /var/log/mailman so mailman-logpath=/var/log/mailman
+	
+	./configure --prefix=selspath --with-mailman=mailman-path --with-mailmanlogs=mailman-logpath
+	make
+	make install (as root)
+
+2. Become root and copy sels-x.x to /usr/local 
+
+3. Copy ~LS/bin/Mailman_Handlers/*.py to ~mailman/Mailman/Handlers/ and apply the patch as described in ~LS/bin/Mailman_Handlers/MailmanREADME.
+4. Add "SELS" handler to the global pipeline at ~mailman/Mailman/Defaults.py. To do so put the following line 
+   in mm_cfg.py. This will find 'Moderate' in the list and insert 'SELS' at that point.
+   GLOBAL_PIPELINE.insert(GLOBAL_PIPELINE.index('Moderate'), 'SELS') 
+   (http://www.python.org/cgi-bin/faqw-mm.py?req=edit&file=faq04.067.htp)
+
+5. Restart mailman using ~/mailman/bin/mailmanctl restart.
+  
+6. Edit SELSLSConfig.py and change default values of Global variables. Leave LK_KEY_ID as none etc. (Note: Maximum value for keyexp = 5 years)
+
+7. On getting email request to "create new list" from LM , create list using
+
+	python SELScreate.py -l <listname> 
+
+   Then send emails to LM using:
+
+	python sendemailtoLM.py 
+		:choose 1, 2 and then 3
+
+
+8. All manual steps are complete.
+
+9. For debugging view SELS log as "tail -f /var/log/mailman/SELS.log"
+
+10. For debugging view Mailman error log as "tail -f /var/log/mailman/error"
+

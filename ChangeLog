@@ -1,0 +1,155 @@
+2009-04-09 Meenal Pant <sels@ncsa.uiuc.edu>
+	* Release: 1.1
+	* Code changes:
+		- Fixed bugs 24 and 25
+		- ROLLBACK: Rolled back batch subscribe and key update functionality due
+		to bug 26.
+2008-10-30 Meenal Pant <sels@ncsa.uiuc.edu>
+	* Release: 1.0
+	* Code Changes:
+		- Fixed bugs 18, 19, 20, 21, 22
+		- After review of code:
+			- Error handling improved
+			   -- Java errors caught and script exits gracefully.
+			   -- Only send List key id from LM to LS improving
+			      security
+			   -- Encrypt and send LS pub key from LS to LM
+			      improving security
+		- New "Key Update" functionality added. Revocation certificates
+		  distrbuted for previous List Key
+		- New "Delete a subscriber" functionality added. Subscriber
+		  can be deleted via web or command line interface. Subscriber's
+		  keys are also removed.
+		- Smarter Bounce messages 
+		- Mailman patch for SMTPDirect.py and OldIStyleMemberships.py
+		- Best effort plaintext bounces for encrypted only lists
+		- ROLLBACK: We are rolling back the "subkey only" featurei,
+		            introduced in release 0.5.5 that  enables a user to use 
+			    his list key pair for decryption only and not signing.
+			    This is done to support PGP Desktop for key
+			    management.
+		- ROLLBACK: We are rolling back the password based encryption
+		            algorithm back to CAST5 to support PGP Desktop.
+
+2008-05-05 Meenal Pant <sels@ncsa.uiuc.edu>
+	* Release: 0.7
+	* Code Changes:
+		- Generate and store Revocation certificate for List Key (LK).
+		  Moderator distributes them manually during key update.
+		- Changed algorithiom CAST5 to AES256 for password based
+		  encryption in LM
+		- Removed email address from user key pair. Retain name and
+		  comment.
+		- Change instructions.txt in LM/bin. A Subscriber must verify
+		  fingerprint after importing the List Moderator's key by out
+		  of band means.
+
+2008-04-24 Meenal Pant <sels@ncsa.uiuc.edu>
+	* Release: 0.6.1
+	* Code Changes:
+		- Check for Java install and exit gracefully if not found in
+		  both LS and LM code.
+2008-04-03 Meenal Pant <sels@ncsa.uiuc.edu>
+	* Release: 0.6
+	* Code Changes:
+		- Two key lengths are supported now for SELS namely: 1024 and 2048
+2008-03-20 Meenal Pant <sels@ncsa.uiuc.edu>
+	* Release: 0.5.8
+	* Code Changes:
+		- This release provided bounce notification to users for two
+		  types of error messages sent on SELS server. 
+		  1) Message encrypted with wrong encryption key (LK)
+		  2) Message composed as HTML and not sent as PGP MIME 
+
+2008-02-14 Meenal Pant <sels@ncsa.uiuc.edu>
+	* Release: 0.5.5
+	* Code Changes:
+		- *SELS Protocol change: Full Key Trust and Local Key Sign feature* : All
+		  users are recommended to place full key trust in the List Moderator's public
+		  key and then sign it locally with their signature key. This allows transitive trust for all keys 
+                  signed by List Moderator automatically.
+		- The User list key pair is decryption only. It cannot be used for signing.
+		- LM SMTPPort bug fixed
+                - Email header changes in LS and LM Code
+2008-02-06 Meenal Pant <sels@ncsa.uiuc.edu>
+	* Release: 0.5
+	* Code Changes:
+		- Setting key expiration in config file in LM and LS
+		- Fully qualified list names in keys
+		- Single password option in config file for batch subscription in LM
+		- Adding SMTPDomain in LM code to create email headers
+2008-01-24 Meenal Pant <sels@ncsa.uiuc.edu>
+	* sels: Release sels 0.4.1
+	* Code Changes:
+		- Changes in LM code. Include SELS List Server Administrator's public key in the "Accept" email 
+
+2007-10-12 Meenal Pant <sels@ncsa.uiuc.edu>
+	* Release: 0.4
+	* New Features:
+		- *SELS Protocol change: Ultimate Key Trust feature* : All
+		  users place ultimate key trust in the List Moderator's public
+		  key. This allows transitive trust for all keys signed by List
+		  Moderator automatically
+		- Code release as as autotools package 
+		- List Server code released !
+		- Mass Subscription feature added to the List Moderator code
+		- Support for Java 1.6 added
+		- Support for GnuPG 1.4.7 added
+		- Check for "Unlimited Strength Java policy files" added"
+		- Better error hadling and graceful exits from scripts in LM
+		  and LS
+		- Plaintext Bounce Notifications sent to subscriber with email
+		  subject
+
+2007-01-29 Meenal Pant <sels@ncsa.uiuc.edu>
+	*  Release: 0.3
+	
+	* New Features :
+		- Single integrated moderator script
+			SELSModerator.py is a single script for creating LM keys, List Keys and keys for a subscribed user.
+		- Multiple recipeint handling 
+			Support for sending email to more than  one list or user
+		- Error Handling added to Moderator code
+			* Graceful exit from script if code fails
+			* Meaningful error messages added
+			* IO Error  Handling added
+			
+		- Compacting Java source code 
+		- ElGamal Key Generation (p, g params)is changed to use standard Oakley groups/params from (RFC 2412) instead                  of creating a new group/params everytime.		
+	
+	* Bugs: Fixed following bugs listed at http://sels.ncsa.uiuc.edu/  ----> Link Bugs
+		12 - Fixed for multiple recipient handling
+		14 - Fixed partially (components createsd) X-SELS header outstanding
+
+	* bin: - Created new scripted SELSModerator.py. This script can be used to perform the three tasks Create list, Gener		      ate List keys and Subscribe Users. 
+
+	* lib: - Created new *.jars for changed java source
+
+	* src: - Java source code cleaned 
+
+	* Other: -
+
+
+2006-09-26 Meenal Pant <sels@ncsa.uiuc.edu>
+
+	* Release: 0.2
+
+	* Bugs: Fixed following bugs listed at http://sels.ncsa.uiuc.edu/  ----> Link Bugs
+		6 - Fixed with displaying usage
+		7 - Fixed with displaying error message and exiting
+		8 - Fixed with displaying error message and exiting
+		9 - Comments added
+		10 - Corrected "To" headers 
+		11 - GPG warning errors fixed by changing permissions of list keyring directory
+
+	* bin: - Changed script names from PSELS* to SELS*
+	       - Added standard options like -v , --version, -h, --help etc to SELSCreateLMKeys.py, SELSCreateListKey.py and 
+		 SELSSubscribeUser.py
+	       - Added support for automatic checking of installed software using -i or --installcheck in the three scripts \		      listed above
+	       - Added instructions for user in emails sent from Moderator to User in SELSEmailUtil.py
+
+	* lib: - Created new sels.jar for lib/1.4 and lib/1.5
+
+	* src: - Renamed PSELS* to SELS*    
+
+	* Other: - SELS admin has been changed to selsadmin@pkirack1.ncsa.uiuc.edu

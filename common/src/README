@@ -1,0 +1,11 @@
+*** How to compile .java files found in java/
+
+Bouncy castle library, junit and current directory containing source files  should be on the classpath
+for example
+
+export CLASSPATH=$CLASSPATH:.:$LIB_PATH/bcprov-jdk15-133.jar:$LIB_PATH/bcpg-jdk15-133.jar:$LIB_PATH/junit.jar
+javac -classpath $CLASSPATH *.java
+
+Create sels-X-X.jar:
+jar cvf sels-1.5.jar *.class
+
