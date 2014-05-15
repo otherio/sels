@@ -7,6 +7,7 @@
 import os
 import sys
 import string
+from distutils.version import StrictVersion
 # Global variable definition
 ########################################################################################################################
 # Define the key expiration time (in years) for keys related to list. Default = 3 year (Maximum Value at List Server = 5 years)
@@ -43,7 +44,7 @@ if (outgpg == ""):
     sys.exit()
 gpgv = outgpg.splitlines()
 gpgver = gpgv[0].split()
-if gpgver[2] < "1.4.7":
+if StrictVersion(gpgver[2]) < StrictVersion('1.4.7'):
     print "Your GnuPG version is %s"%(gpgver[2])
     print "Warning !! Please install GnuPG version 1.4.7 which has latest security fixes. Using older versions may give errors. "
 else:
