@@ -79,12 +79,14 @@ if word != "":
         javaver = '1.4'
     elif word[2][3] == '6':
         javaver = '1.6'
+    elif word[2][3] == '7':
+        javaver = '1.6'
     else:
         print 'The version of Java you are using is not supported. \n'
-        print 'We currently support Java 1.4, Java 1.5 and Java 1.6 \n'
+        print 'We currently support Java 1.4, Java 1.5, Java 1.6, and Java 1.7 \n'
         sys.exit()
 else:
-    print "Please install Java 1.4.x or 1.5.x or 1.6.x"
+    print "Please install Java 1.4.x or 1.5.x or 1.6.x or 1.7.x"
     sys.exit()
 
 if (( osname == 'posix') and ( javaver =='1.4')):

@@ -204,7 +204,7 @@ def genPass():
 def checkinstall():
     msg2 = 'For SELS please ensure: \n'
     msg2 += 'Python 2.4 or higher , '
-    msg2 += 'Java 1.4.x, 1.5.x or 1.6.x, '
+    msg2 += 'Java 1.4.x, 1.5.x, 1.6.x, or 1.7.x'
     msg2 += 'and GnuPG 1.4.7'
     osname = os.name
     if osname == 'nt':
