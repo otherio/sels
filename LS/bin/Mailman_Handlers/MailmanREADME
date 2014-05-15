@@ -1,0 +1,63 @@
+We are currently using Mailman Version 2.1.9. Mailman is ususally installed in /usr/lib/mailman and lists and data are stored in /var/lib/mailman.
+Mailman logs are usually found in /var/log/mailman.
+
+We modfiy two mailman scripts so that they can be used with SELS.
+
+/usr/lib/mailman/Mailman/OldStyleMemberships.py
+and 
+/usr/lib/mailman/Mailman/Handlers/SMTPDirect.py
+
+
+1) OldStyleMemberships.py
+This script is modified to delete a user and his keys from Mailman. The user can be deleted via the mailman web interface or command line. 
+
+Requires:
+SELSdeleteuser.py 
+SELSpath.py
+mailmanlogs.py
+OldStyleMembership.py.patch
+
+Copy these scripts from the SELS code distribution  ~LS/bin/Mailman_Handlers to /usr/lib/mailman/Mailman/
+
+Then apply the patch using
+
+patch -b OldStyleMemberships.py -i OldStyleMemberships.py.patch
+
+
+
+2) SMTPDirect.py
+
+This script is modified to add SELS Checkkeyid, transformation and bounce functionality. 
+
+Requires:
+SELSsmtphelper.py
+mailmanlogs.py
+mailmanlistpath.py
+SELSpath.py
+GnuPGInterface.py
+SMTPDirect.py.patch
+
+Additionally SELS.py is a standalone SELS Handler and should also go in the Mailman Handlers directory
+
+Copy these scripts from the SELS code distribution , ~LS/bin/Mailman_Handlers to /usr/lib/mailman/Mailman/Handlers
+ 
+Then apply the patch using
+
+patch -b SMTPDirect.py -i SMTPDirect.py.patch
+
+
+3) To add  SELS.py  to the global Mailman PIPELINE refer to INSTALL instructions in the code distrbution.
+
+
+4) Then restart mailman using 
+/usr/lib/mailman/bin/mailmanctl stop
+/usr/lib/mailman/bin/mailmanctl start
+	 
+
+
+Note: This patch works with Mailman v 2.1.9. We expect it to work for future versions of Mailman. Remember to patch the 
+files again after a Mailman update. 
+If for some reason the patch fails please contact the SELS Team. To do so, go to http://sels.ncsa.uiuc.edu/support.html
+
+
+

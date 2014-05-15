@@ -1,0 +1,58 @@
+*** SMTPDirect.py.orig	2008-10-13 14:43:46.000000000 -0500
+--- SMTPDirect.py.new	2008-10-29 13:23:48.000000000 -0500
+***************
+*** 44,49 ****
+--- 44,52 ----
+  from email.Header import Header
+  from email.Charset import Charset
+  
++ # For SELS
++ from SELSsmtphelper import *
++ 
+  DOT = '.'
+  
+  try:
+***************
+*** 113,118 ****
+--- 116,128 ----
+      # SMTP_MAX_RCPTS.  Note that most MTAs have a limit on the number of
+      # recipients they'll swallow in a single transaction.
+      deliveryfunc = None
++ 
++     #SELS addition begin
++     chunks = [[recip] for recip in recips]
++     msgdata['personalize'] = 1
++     deliveryfunc = verpdeliver
++     #SELS addition end
++     
+      if (not msgdata.has_key('personalize') or msgdata['personalize']) and (
+             msgdata.get('verp') or mlist.personalize):
+          chunks = [[recip] for recip in recips]
+***************
+*** 277,282 ****
+--- 287,297 ----
+  
+  
+  def verpdeliver(mlist, msg, msgdata, envsender, failures, conn):
++     
++     #SELS Checkkeyid begin
++     selscheckkeyid(mlist, msg, msgdata)
++     #SELS Checkkeyid end
++     
+      for recip in msgdata['recips']:
+          # We now need to stitch together the message with its header and
+          # footer.  If we're VERPIng, we have to calculate the envelope sender
+***************
+*** 340,345 ****
+--- 355,365 ----
+          del msgcopy['x-mailman-copy']
+          if msgdata.get('add-dup-header', {}).has_key(recip):
+              msgcopy['X-Mailman-Copy'] = 'yes'
++ 
++         #SELS transform begin
++         msgcopy = selstransform(mlist, recip, msgcopy, msg)
++         #SELS transform end
++ 
+          # For the final delivery stage, we can just bulk deliver to a party of
+          # one. ;)
+          bulkdeliver(mlist, msgcopy, msgdata, envsender, failures, conn)

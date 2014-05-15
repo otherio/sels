@@ -1,0 +1,84 @@
+Instructions to follow for the "LM public key" email:
+---------------------------------------------------------------
+
+To obtain this key pair, either use your GPG plugin's key management interface or 
+execute the following command line steps:
+
+1. Save this key to a file say foo.gpg using your e-mail client
+
+2. Import using the keys using the command
+$ gpg --import foo.gpg
+
+Note the key-id of the key imported. You need it in the next step.
+
+3. Verify the fingerprint of this key with List Moderator via out of band
+means, ex phone call.
+$ gpg --fingerprint <key-id>
+
+4. SET 'KEY TRUST' USING YOUR GPG PLUGIN OR THE FOLLOWING COMMAND (DO NOT SKIP THIS STEP)
+$ gpg --edit-key <key-id>
+where key-id is the one you noted above.
+
+Type 'trust' at the command as shown below
+Command> trust
+
+and choose option 4 (I trust fully).
+Exit by typing 'quit' as shown
+
+Command> quit
+
+Save changes when prompted.
+
+5. Sign the key locally with your signature key
+$ gpg --default-key <your-sig-key-id> --lsign-key <key-id>
+
+Note: If you do not want to set full trust, refer to
+http://sels.ncsa.uiuc.edu/faq.html#Sub2 
+
+Instructions to follow for the "Accept" email:
+---------------------------------------------------------------
+
+To obtain thses keys, either use your GPG plugin's key management interface or 
+execute the following command line steps:
+
+1. Save the e-mail to a file, say enc.gpg, using your e-mail client's
+interface
+
+2. Decrypt using the passphrase given by the moderator with command
+$ gpg --decrypt enc.gpg >  keys.gpg
+
+3. Verify signature and obtain keys using command
+$ gpg --decrypt keys.gpg > keys
+
+4. Import the keys into your keyring using command
+$ gpg --import --allow-secret-key-import keys
+Note the key-id of the secret key imported to your keyring.
+
+
+We STRONGLY RECOMMEND changing the password for your list decryption
+key, to be the same as your own GPG signature key for ease of use. Otherwise
+you will have to enter different passwords for sending and receiving
+messages.
+
+
+Either use your GPG plugin's key management interface or the following
+GPG command to change password.
+
+$ gpg --edit-key <key-id>
+
+where key-id is the one you have noted in the above step.
+
+Type passwd at the command prompt as shown below
+
+Command> passwd
+
+after changing the password type following command to end.
+
+Command> quit
+
+Save changes when prompted.
+
+Please visit http://sels.ncsa.uiuc.edu/ to learn more about SELS.
+
+
+

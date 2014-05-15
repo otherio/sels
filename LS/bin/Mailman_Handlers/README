@@ -1,0 +1,4 @@
+To create a patch : 
+diff -cB SMTPDirect.py.orig  SMTPDirect.py.new > SMTPDirect.py.patch  (-c = context outpur format, -B = ignore blank lines)
+To patch a file : 
+patch -b SMTPDirect.py -i SMTPDirect.py.patch ( -b = create backup of original file , will be origfile.orig,  -i : reads information from patchfile) 
