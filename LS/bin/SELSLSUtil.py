@@ -13,6 +13,7 @@ import string
 import getopt
 import re
 import subprocess
+from distutils.version import StrictVersion
 from SELSLSConfig import *
 
 def execCmd( cmd, input ):
@@ -136,7 +137,7 @@ def checkinstall():
     print '\n'
     print msg
     print msg2
-    if gpgver[2] < "1.4.7":
+    if StrictVersion(gpgver[2]) < StrictVersion('1.4.7'):
         print '\n'
         print msg3
     else:

@@ -10,6 +10,7 @@ import threading
 import os
 import sys
 import string
+from distutils.version import StrictVersion
 from SELSconfig import *
 from SELSLSpath import *
 # Global variable definition
@@ -38,7 +39,7 @@ if (outgpg == ""):
     sys.exit()
 gpgv = outgpg.splitlines()
 gpgver = gpgv[0].split()
-if gpgver[2] < "1.4.7":
+if StrictVersion(gpgver[2]) < StrictVersion('1.4.7'):
     print "Your GnuPG version is %s"%(gpgver[2])
     print "Warning !! Please install GnuPG version 1.4.7 which has latest security fixes. Using older versions may give errors. "
 else:
@@ -68,7 +69,7 @@ if ( i < 10):
         else:
             i = i +1
 else:
-    print "Please install Java 1.4.x or 1.5.x or 1.6.x"
+    print "Please install Java 1.4.x or 1.5.x or 1.6.x or 1.7.x"
     sys.exit()
 if word[2][3] == '5':
     javaver= '1.5'
@@ -76,9 +77,11 @@ elif word[2][3] == '4':
     javaver = '1.4'
 elif word[2][3] == '6':
     javaver = '1.6'
+elif word[2][3] == '7':
+    javaver = '1.6'
 else:
     print 'The version of Java you are using is not supported. \n'
-    print 'We currently only support Java 1.4 and Java 1.5. \n'
+    print 'We currently only support Java 1.4 - 1.7 \n'
     sys.exit()
 
 if (( osname == 'posix') and ( javaver =='1.4')):
